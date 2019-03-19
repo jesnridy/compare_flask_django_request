@@ -1,0 +1,2 @@
+# compare_flask_django_request
+比较flask和django的请求过程
