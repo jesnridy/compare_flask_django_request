@@ -18,6 +18,8 @@ def get_wsgi_application():
 ```
 
 2：调用方法返回类WSGIHandle，他继承了base.BaseHandler， 看了下这个基类中几个有意思的方法。
+
+
     2.1：`load_middleware`： 导入setting.MIDDLEWARE的模块，。
     2.2：`make_view_atomic`：事务化视图方法，就是针对数据库做了atomic操作。
         ```
