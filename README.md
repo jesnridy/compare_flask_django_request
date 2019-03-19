@@ -19,8 +19,8 @@ def get_wsgi_application():
 
 2：调用方法返回类WSGIHandle，他继承了base.BaseHandler， 看了下这个基类中几个有意思的方法。
 
-    2.1：`load_middleware`： 导入setting.MIDDLEWARE的模块，。
-    2.2：`make_view_atomic`：事务化视图方法，就是针对数据库做了atomic操作。
+    2.1：load_middleware： 导入setting.MIDDLEWARE的模块，。
+    2.2：make_view_atomic：事务化视图方法，就是针对数据库做了atomic操作。
         
         def make_view_atomic(self, view):
             non_atomic_requests = getattr(view, '_non_atomic_requests', set())
@@ -29,13 +29,14 @@ def get_wsgi_application():
                 if db.settings_dict['ATOMIC_REQUESTS'] and db.alias not in non_atomic_requests:
                     view = transaction.atomic(using=db.alias)(view)
             return view
-    2.3：`get_exception_response`：获取response异常信息。
-    2.4：`process_exception_by_middleware`：用中间件中引入的exception_middleware处理异常信息。
-    2.5：`handle_uncaught_exception`：可以重写这个方法处理未被捕获的异常。
+    2.3：get_exception_response：获取response异常信息。
+    2.4：process_exception_by_middleware：用中间件中引入的exception_middleware处理异常信息。
+    2.5：handle_uncaught_exception：可以重写这个方法处理未被捕获的异常。
  
  3：WSGIHandle先做了load_middleware操作这个操作写在构造方法中，只调用一次。
-    并且定义了一个类变量`request_class = WSGIRequest`。
-    ```
+    并且定义了一个类变量request_class = WSGIRequest。
+   
+   ```
     class WSGIHandler(base.BaseHandler):
     request_class = WSGIRequest
 
